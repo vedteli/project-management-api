@@ -1,17 +1,18 @@
 import { text } from "express";
 import Mailgen from "mailgen";
+import nodemailer from "nodemailer";
 
 // Configure mailgen by setting a theme and your product info
-var mailGenerator = new Mailgen({
-    theme: 'cerberus',
-    // product: {
-    //     // Appears in header & footer of e-mails
-    //     name: 'Mailgen',
-    //     link: 'https://mailgen.js/'
-    //     // Optional product logo
-    //     // logo: 'https://mailgen.js/img/logo.png'
-    // }
-});
+// var mailGenerator = new Mailgen({
+//     theme: 'cerberus',
+//     // product: {
+//     //     // Appears in header & footer of e-mails
+//     //     name: 'Mailgen',
+//     //     link: 'https://mailgen.js/'
+//     //     // Optional product logo
+//     //     // logo: 'https://mailgen.js/img/logo.png'
+//     // }
+// });
 
 async function sendMail(options) {
     const mailGenerator = new Mailgen({
@@ -19,9 +20,11 @@ async function sendMail(options) {
     product: {
         name: 'Task Manager',
         link: 'https://taskmanagerlink.com'
+
     }
     });
 
+    console.log("OPTIONS CONTENT: ", options)
     const emailTextual = mailGenerator.generatePlaintext(options.content)
     const emailHTML = mailGenerator.generate(options.content)
 
@@ -68,7 +71,7 @@ const generateVerificationMail = (username, verificationURL) => {
         }
     };
 
-    return { email }
+    return email 
 }
 
 const generateResetPasswordMail = (username, resetPasswordURL) => {
@@ -88,7 +91,7 @@ const generateResetPasswordMail = (username, resetPasswordURL) => {
         }
     };
 
-    return { email }
+    return email 
 }
 
 

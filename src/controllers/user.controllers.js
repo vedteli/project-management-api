@@ -52,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
         subject: "Verify your email",
         content: generateVerificationMail(
             user.username,
-            `${req.protocol}://${req.get("host")}/api/v1//verify-email/${unHashedToken}`
+            `${req.protocol}://${req.get("host")}/api/v1/verify-email/${unHashedToken}`
         )
     })
 
@@ -64,4 +64,4 @@ const registerUser = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, {user: createdUser}, "User Created Successfully"))
 })
 
-export { registerUser }
+export { registerUser  }

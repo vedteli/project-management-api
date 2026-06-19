@@ -74,10 +74,10 @@ const userSchema = new Schema({
 })
 
 userSchema.pre("save", async function(next){
-    if(!this.isModified("password")) return next()
+    if(!this.isModified("password")) return 
     
     this.password = await bcrypt.hash(this.password, 7);
-    next();
+    // next();
 })
 
 userSchema.methods.isPasswordValid = async function(password){
@@ -114,7 +114,7 @@ userSchema.methods.generateTemporaryToken = function(){
                               .update(unHashedToken)
                               .digest("hex")
 
-    const tokenExpiry = Date.now() * (20*60*100);
+    const tokenExpiry = Date.now() + (20*60*100);
     return { unHashedToken, HashedToken, tokenExpiry }
 }
 
