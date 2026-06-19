@@ -17,11 +17,8 @@ async function sendMail(options) {
     const mailGenerator = new Mailgen({
     theme: 'cerberus',
     product: {
-        // Appears in header & footer of e-mails
         name: 'Task Manager',
         link: 'https://taskmanagerlink.com'
-        // Optional product logo
-        // logo: 'https://mailgen.js/img/logo.png'
     }
     });
 
