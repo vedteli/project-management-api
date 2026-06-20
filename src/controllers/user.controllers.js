@@ -58,7 +58,7 @@ const registerUser = asyncHandler(async (req, res) => {
     })
 
     const createdUser = await User.findById(user._id).select(
-        "-password -refreshToken -emailVerificationToken -emailverificationTokenExpiry"
+        "-password -refreshToken -emailVerificationToken -emailVerificationTokenExpiry"
     )
 
     if(!createdUser) throw new ApiError(500, "Error: User could not be registed")
@@ -66,7 +66,45 @@ const registerUser = asyncHandler(async (req, res) => {
 })
 
 const loginUser = asyncHandler(async (req, res) => {
+    const {username, email, password} = req.body;
+
+    if(!email) throw new ApiError(400, "Email is Required");
+
+    const user = await User.findOne({
+        email
+    })
+
+    if(!user) throw new ApiError(404, "No user registered on this email id");
     
+    const isCredentialsValid = await user.isPasswordValid(password)
+
+    if(!isCredentialsValid) throw new ApiError(401, "Invalid Credentials Provided");
+
+    const LoggedInUser = await User.findById(user._id).select(
+        "-password -refreshToken -emailVerificationToken -emailVerificationTokenExpiry"
+    )
+
+    const {accessToken, refreshToken} = await generateAccessAndRefreshToken(LoggedInUser._id)
+    await User.findByIdAndUpdate(LoggedInUser._id, {
+        refreshToken: refreshToken,
+    });
+
+    const options = {
+        httpOnly: true,
+        secure: true,
+        }
+    
+    res.cookie("accessToken", accessToken, options)
+       .cookie("refreshToken", refreshToken, options)
+       .status(200)
+       .json(new ApiResponse(200, {
+        // user: LoggedInUser._id,
+        user: LoggedInUser,
+        accessToken,
+        refreshToken
+       },
+       "User Logged in Successfully" 
+    ))
 })
 
-export { registerUser  }
+export { registerUser, loginUser  }

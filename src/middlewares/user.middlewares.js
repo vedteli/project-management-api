@@ -1,7 +1,7 @@
 import { ApiError } from "../utils/api-error.js";
 import asyncHandler from "../utils/async-handler.js";
 
-const userValidator = (ZodSchema) => {
+const ValidationResult = (ZodSchema) => {
     // console.log("Test A")
     return asyncHandler(async (req, res, next) => {
     const isUserValidated = await ZodSchema.safeParseAsync(req.body);
@@ -17,5 +17,5 @@ const userValidator = (ZodSchema) => {
 }
 
 export {
-    userValidator
+    ValidationResult
 }

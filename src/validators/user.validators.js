@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const userValidationSchema = z.object({
+const userRegistrationZodSchema = z.object({
     email: z.email(),
     username: z.string().trim().min(3, "Username must consist of atleast 3 character").max(20, "Maximum character limit reached"),
     password: z.string().trim()
@@ -12,5 +12,12 @@ const userValidationSchema = z.object({
             .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/, "Must contain at least one special character")
             }).passthrough();
 
+const userLoginZodSchema = z.object({
+    email: z.email(),
+    // username: z.string().trim().min(3, "Username must consist of atleast 3 character").max(20, "Maximum character limit reached"),
+    password: z.string().trim()
+            .min(8, "Password Must be Minimum 8 characters long")
+            .max(18, "Password Must be Maximum 18 characters long")
+            }).passthrough();
 
-export { userValidationSchema }
+export { userRegistrationZodSchema, userLoginZodSchema }
