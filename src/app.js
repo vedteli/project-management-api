@@ -24,6 +24,15 @@ import userRouter from "./routes/user.routes.js"
 app.use("/api/v1/healthcheck", healthCheckRouter)
 app.use("/api/v1/auth", userRouter)
 
+// Error  middleware
+// app.use((err, req, res, next) => {
+//   res.status(err.statusCode || 500).json({
+//     success: err.success ?? false,
+//     message: err.message,
+//     errors: err.errors,
+//   });
+// });
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 })

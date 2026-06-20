@@ -44,6 +44,8 @@ async function sendMail(options) {
         text: emailTextual,
         html: emailHTML
     }
+    // console.log("MAIL TO SEND: ", mail) mail looks perfect
+    // console.log(transport) this is perfect too
 
     try {
         await transport.sendMail(mail)
